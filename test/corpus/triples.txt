@@ -1,0 +1,42 @@
+===============
+Simple triples
+===============
+
+<http://example.org/#spiderman> <http://www.perceive.net/schemas/relationship/enemyOf> <http://example.org/#green-goblin> .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list (iri_reference))))))
+
+================
+Predicate lists
+================
+
+<http://example.org/#spiderman> <http://www.perceive.net/schemas/relationship/enemyOf> <http://example.org/#green-goblin> ;
+                                <http://xmlns.com/foaf/0.1/name> "Spiderman\u1234" .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list (iri_reference))
+        (predicate (iri_reference))
+        (object_list (rdf_literal (string)))))))
+
+=============
+Object lists
+=============
+
+<http://example.org/#spiderman> <http://xmlns.com/foaf/0.1/name> "Spiderman", "Человек-паук"@ru .
+
+---
