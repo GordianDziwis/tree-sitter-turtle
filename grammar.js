@@ -11,9 +11,6 @@ const EXPONENT = [
   /[0-9]+/
 ]
 
-// [159s]
-const ECHAR = /\\[tbnrf\\"']/
-
 // [161s]
 const WS = [
   /\x20/,
@@ -93,7 +90,7 @@ module.exports = grammar({
     /\s/
   ],
 
-  // word: $ => $.pn_prefix,
+  word: $ => $.pn_prefix,
 
   rules: {
 
@@ -238,14 +235,16 @@ module.exports = grammar({
     ),
 
     // [18]
-    iri_reference: $ => token(seq(
+    iri_reference: $ => seq(
       '<',
-      repeat(choice(
+      token.immediate(repeat(choice(
         /([^<>"{}|^`\\\x00-\x20])/,
         UCHAR
-      )),
-      '>'
-    )),
+      ))),
+      token.immediate(
+        '>'
+      )
+    ),
 
     // [19]
     integer: $ => token(/[+-]?[0-9]+/),
@@ -264,29 +263,29 @@ module.exports = grammar({
     ),
 
     // [22]
-    _string_literal_quote: $ => token(seq(
+    _string_literal_quote: $ => seq(
       '"',
       repeat(choice(
         /[^\x22\x5C\x0A\x0D]/,
-        ECHAR,
+        $.echar,
         UCHAR
       )),
       '"',
-    )),
+    ),
 
     // [23]
-    _string_literal_single_quote: $ => token(seq(
+    _string_literal_single_quote: $ => seq(
       "'",
       repeat(choice(
         /[^\x27\x5C\x0A\x0D]/,
-        ECHAR,
+        $.echar,
         UCHAR
       )),
       "'"
-    )),
+    ),
 
     // [24]
-    _string_literal_long_single_quote: $ => token(seq(
+    _string_literal_long_single_quote: $ => seq(
       "'''",
       repeat(seq(
         optional(choice(
@@ -295,15 +294,15 @@ module.exports = grammar({
         )),
         choice(
           /[^'\\]/,
-          ECHAR,
+          $.echar,
           UCHAR
         )
       )),
       "'''",
-    )),
+    ),
 
     // [25]
-    _string_literal_long_quote: $ => token(seq(
+    _string_literal_long_quote: $ => seq(
       '"""',
       repeat(seq(
         optional(choice(
@@ -312,12 +311,12 @@ module.exports = grammar({
         )),
         choice(
           /[^"\\]/,
-          ECHAR,
+          $.echar,
           UCHAR
         )
       )),
       '"""',
-    )),
+    ),
 
     // [128s]
     rdf_literal: $ => seq(
@@ -382,6 +381,9 @@ module.exports = grammar({
       /[a-zA-Z]+/,
       repeat(seq('-', /[a-zA-Z0-9]+/))
     )),
+
+    // [159s]
+    echar: $ => /\\[tbnrf\\"']/,
 
     // [162s]
     anon: $ => token(seq(

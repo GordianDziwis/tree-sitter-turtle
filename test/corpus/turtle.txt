@@ -1,0 +1,371 @@
+===============
+Simple triples
+===============
+
+<http://example.org/#spiderman> <http://www.perceive.net/schemas/relationship/enemyOf> <http://example.org/#green-goblin> .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list (iri_reference))))))
+
+================
+Predicate lists
+================
+
+<http://example.org/#spiderman> <http://www.perceive.net/schemas/relationship/enemyOf> <http://example.org/#green-goblin> ;
+                                <http://xmlns.com/foaf/0.1/name> "Spiderman" .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list (iri_reference))
+        (predicate (iri_reference))
+        (object_list (rdf_literal (string)))))))
+
+=============
+Object lists
+=============
+
+<http://example.org/#spiderman> <http://xmlns.com/foaf/0.1/name> "Spiderman", "Человек-паук"@ru .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list
+          (rdf_literal (string))
+          (rdf_literal (string) (lang_tag))))))) 
+
+=============
+Absolute iri
+=============
+
+<http://one.example/subject1> <http://one.example/predicate1> <http://one.example/object1> .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list (iri_reference))))))
+
+============
+Relative iri
+============
+
+<subject2> <predicate2> <object2> . 
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list (iri_reference))))))
+
+==============
+Prefixed name
+==============
+
+p:subject3 p:predicate3 p:object3 .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list (prefixed_name (namespace (pn_prefix)) (pn_local)))))))
+
+=============
+Empty prefix
+=============
+
+:subject5 a :object5 .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (prefixed_name (namespace) (pn_local)))
+      (property_list
+        (predicate)
+        (object_list (prefixed_name (namespace) (pn_local)))))))
+
+=================
+Multi-script iri
+=================
+
+<http://伝言.example/?user=أكرم&amp;channel=R%26D> a :subject8 .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+        (property_list
+          (predicate)
+          (object_list (prefixed_name (namespace) (pn_local)))))))
+
+=====
+Base
+=====
+
+@base <http://one.example/> .
+BASE <http://one.example/>
+
+---
+
+(turtle_doc
+  (statement
+    (directive
+      (base (iri_reference))))
+  (statement
+    (directive
+      (sparql_base (iri_reference)))))
+
+=======
+Prefix
+=======
+
+@prefix p: <http://two.example/> .
+PREFIX p: <http://two.example/>
+
+---
+
+(turtle_doc 
+  (statement 
+    (directive
+      (prefix_id (namespace (pn_prefix)) (iri_reference))))
+  (statement
+    (directive
+      (sparql_prefix (namespace (pn_prefix)) (iri_reference)))))
+
+================
+Quoted literals
+================
+
+show:218 rdfs:label "That Seventies Show"^^xsd:string .
+show:218 rdfs:label "That Seventies Show"^^<http://www.w3.org/2001/XMLSchema#string> .
+show:218 rdfs:label "That Seventies Show" .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list (rdf_literal
+          value: (string)
+          datatype: (prefixed_name (namespace (pn_prefix)) (pn_local)))))))
+  (statement
+    (triples
+      (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list (rdf_literal
+          value: (string)
+          datatype: (iri_reference))))))
+  (statement
+    (triples
+      (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list (rdf_literal
+          value: (string))))))) 
+
+=============
+Language Tag
+=============
+
+show:218 show:localName 'That Seventies Show'@fr-be .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list (rdf_literal
+          value: (string)
+          (lang_tag)))))))
+
+=======================
+Literal with new lines
+=======================
+
+show:218 show:blurb '''This is a multi-line
+literal with many quotes (""""")
+and up to two sequential apostrophes ('').''' .
+
+---
+
+(turtle_doc 
+  (statement
+    (triples
+      (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list (rdf_literal (string)))))))
+
+========
+Numbers
+========
+
+<http://en.wikipedia.org/wiki/Helium>
+    :atomicNumber 2 ;               # xsd:integer
+    :atomicMass 4.002602 ;          # xsd:decimal
+    :specificGravity 1.663E-4 .     # xsd:double
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (prefixed_name (namespace) (pn_local)))
+        (object_list (integer))
+        (comment)
+        (predicate (prefixed_name (namespace) (pn_local)))
+        (object_list (decimal))
+        (comment)
+        (predicate (prefixed_name (namespace) (pn_local)))
+        (object_list (double)))))
+        (comment))
+
+=========
+Booleans
+=========
+
+<http://somecountry.example/census2007> :isLandlocked false .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (prefixed_name (namespace) (pn_local)))
+        (object_list (boolean_literal))))))
+
+============
+Blank nodes
+============
+
+_:alice foaf:knows _:bob .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (blank_node_label))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list (blank_node_label)))))) 
+
+===================
+Nested blank nodes
+===================
+
+[] foaf:knows [ foaf:name "Bob" ] .
+
+---
+
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (anon))
+      (property_list
+        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+        (object_list
+          (blank_node_property_list
+            (property_list
+              (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+              (object_list (rdf_literal (string)))))))))) 
+
+============
+Collections
+============
+
+() :predicate ( :a :b :c ) .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (collection))
+      (property_list
+        (predicate (prefixed_name (namespace) (pn_local)))
+        (object_list
+          (collection
+            (prefixed_name (namespace) (pn_local))
+            (prefixed_name (namespace) (pn_local))
+            (prefixed_name (namespace) (pn_local)))))))) 
+
+=====
+Verb
+=====
+
+:a :a :a .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (prefixed_name (namespace) (pn_local)))
+      (property_list
+        (predicate (prefixed_name (namespace) (pn_local)))
+        (object_list (prefixed_name (namespace) (pn_local)))))))
+
+=================
+Escape sequences
+=================
+
+<s> <p> '\ta\b' .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (predicate (iri_reference))
+        (object_list (rdf_literal
+          (string
+            (echar)
+            (echar)))))))) 
