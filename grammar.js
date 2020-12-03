@@ -88,10 +88,19 @@ const PN_LOCAL_ESC = [
 module.exports = grammar({
   name: 'turtle',
 
+  extras: $ => [
+    $.comment,
+    /\s/
+  ],
+
+  // word: $ => $.pn_prefix,
+
   rules: {
 
     // [1]
     turtle_doc: $ => repeat($.statement),
+
+    comment: $ => /#.*/,
 
     // [2]
     statement: $ => choice(
@@ -179,14 +188,14 @@ module.exports = grammar({
     // [10]
     subject: $ => choice(
       $._iri,
-      $.blank_node,
+      $._blank_node,
       $.collection
     ),
 
     // [12]
     _object: $ => choice(
       $._iri,
-      $.blank_node,
+      $._blank_node,
       $.collection,
       $.blank_node_property_list,
       $._literal
@@ -259,8 +268,8 @@ module.exports = grammar({
       '"',
       repeat(choice(
         /[^\x22\x5C\x0A\x0D]/,
-          ECHAR,
-          UCHAR
+        ECHAR,
+        UCHAR
       )),
       '"',
     )),
@@ -270,8 +279,8 @@ module.exports = grammar({
       "'",
       repeat(choice(
         /[^\x27\x5C\x0A\x0D]/,
-          ECHAR,
-          UCHAR
+        ECHAR,
+        UCHAR
       )),
       "'"
     )),
@@ -338,7 +347,7 @@ module.exports = grammar({
     ),
 
     // [137s]
-    blank_node: $ => choice(
+    _blank_node: $ => choice(
       $.blank_node_label,
       $.anon
     ),
@@ -352,7 +361,7 @@ module.exports = grammar({
     // [141s]
     blank_node_label: $ => seq(
       '_:',
-      token.immediate(
+      token.immediate(seq(
         choice(
           ...PN_CHARS_U,
           /[0-9]/
@@ -364,12 +373,13 @@ module.exports = grammar({
           )),
           choice(...PN_CHARS)
         ))
-      )
+      ))
     ),
 
     // [144s]
     lang_tag: $ => token(seq(
-      '@', /[a-zA-Z]+/,
+      '@',
+      /[a-zA-Z]+/,
       repeat(seq('-', /[a-zA-Z0-9]+/))
     )),
 
