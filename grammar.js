@@ -1,5 +1,5 @@
-// [X] See section "6.5 Grammar" in https://www.w3.org/TR/turtle/#sec-grammar-grammar for
-//     corresponding rule x.
+// [X]  See section "6.5 Grammar" in https://www.w3.org/TR/turtle/#sec-grammar-grammar for
+//      corresponding rule x.
 
 // [26]
 const UCHAR = /(\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})/
@@ -155,15 +155,17 @@ module.exports = grammar({
 
     // [7]
     property_list: $ => seq(
-      $.predicate,
-      $.object_list,
+      $.property,
       repeat(seq(
         ';',
-        optional(seq(
-          $.predicate,
-          $.object_list
-        ))
+        optional($.property)
       ))
+    ),
+
+    // Enable incremental selection of properties
+    property: $ => seq(
+      $.predicate,
+      $.object_list,
     ),
 
     // [8]
@@ -215,8 +217,13 @@ module.exports = grammar({
     // [15]
     collection: $ => seq(
       '(',
-      repeat($._object),
+      optional($.object_collection),
       ')'
+    ),
+
+    // Enable incremental selection analog to blank_node_property_list
+    object_collection: $ => repeat1(
+      $._object,
     ),
 
     // [16]

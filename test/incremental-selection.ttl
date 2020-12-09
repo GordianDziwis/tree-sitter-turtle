@@ -1,0 +1,16 @@
+:DateTimeDescription
+  rdf:type owl:Class ;
+  rdfs:subClassOf :GeneralDateTimeDescription, :test ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:allValuesFrom xsd:gDay ;
+      owl:onProperty :day ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:hasValue <http://www.opengis.net/def/uom/ISO-8601/0/Gregorian> ;
+      owl:onProperty :hasTRS ;
+    ] ;
+.
+[] foaf:knows [ foaf:name "Bob" ] .
+() :predicate ( :a :b :c ) .

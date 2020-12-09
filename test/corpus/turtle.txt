@@ -11,8 +11,9 @@ Simple triples
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (iri_reference))
-        (object_list (iri_reference))))))
+        (property
+          (predicate (iri_reference))
+          (object_list (iri_reference)))))))
 
 ================
 Predicate lists
@@ -28,10 +29,12 @@ Predicate lists
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (iri_reference))
-        (object_list (iri_reference))
-        (predicate (iri_reference))
-        (object_list (rdf_literal (string)))))))
+        (property
+          (predicate (iri_reference))
+          (object_list (iri_reference)))
+        (property
+          (predicate (iri_reference))
+          (object_list (rdf_literal (string))))))))
 
 =============
 Object lists
@@ -46,10 +49,11 @@ Object lists
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (iri_reference))
-        (object_list
-          (rdf_literal (string))
-          (rdf_literal (string) (lang_tag))))))) 
+        (property
+          (predicate (iri_reference))
+          (object_list
+            (rdf_literal (string))
+            (rdf_literal (string) (lang_tag))))))))
 
 =============
 Absolute iri
@@ -64,8 +68,9 @@ Absolute iri
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (iri_reference))
-        (object_list (iri_reference))))))
+        (property
+          (predicate (iri_reference))
+          (object_list (iri_reference)))))))
 
 ============
 Relative iri
@@ -80,8 +85,9 @@ Relative iri
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (iri_reference))
-        (object_list (iri_reference))))))
+        (property
+          (predicate (iri_reference))
+          (object_list (iri_reference)))))))
 
 ==============
 Prefixed name
@@ -96,8 +102,9 @@ p:subject3 p:predicate3 p:object3 .
     (triples
       (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list (prefixed_name (namespace (pn_prefix)) (pn_local)))))))
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list (prefixed_name (namespace (pn_prefix)) (pn_local))))))))
 
 =============
 Empty prefix
@@ -112,8 +119,9 @@ Empty prefix
     (triples
       (subject (prefixed_name (namespace) (pn_local)))
       (property_list
-        (predicate)
-        (object_list (prefixed_name (namespace) (pn_local)))))))
+        (property
+          (predicate)
+          (object_list (prefixed_name (namespace) (pn_local))))))))
 
 =================
 Multi-script iri
@@ -128,8 +136,9 @@ Multi-script iri
     (triples
       (subject (iri_reference))
         (property_list
-          (predicate)
-          (object_list (prefixed_name (namespace) (pn_local)))))))
+          (property
+            (predicate)
+            (object_list (prefixed_name (namespace) (pn_local))))))))
 
 =====
 Base
@@ -180,25 +189,28 @@ show:218 rdfs:label "That Seventies Show" .
     (triples
       (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list (rdf_literal
-          value: (string)
-          datatype: (prefixed_name (namespace (pn_prefix)) (pn_local)))))))
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list (rdf_literal
+            value: (string)
+            datatype: (prefixed_name (namespace (pn_prefix)) (pn_local))))))))
   (statement
     (triples
       (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list (rdf_literal
-          value: (string)
-          datatype: (iri_reference))))))
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list (rdf_literal
+            value: (string)
+            datatype: (iri_reference)))))))
   (statement
     (triples
       (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list (rdf_literal
-          value: (string))))))) 
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list (rdf_literal
+            value: (string))))))))
 
 =============
 Language Tag
@@ -213,10 +225,11 @@ show:218 show:localName 'That Seventies Show'@fr-be .
     (triples
       (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list (rdf_literal
-          value: (string)
-          (lang_tag)))))))
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list (rdf_literal
+            value: (string)
+            (lang_tag))))))))
 
 =======================
 Literal with new lines
@@ -233,8 +246,9 @@ and up to two sequential apostrophes ('').''' .
     (triples
       (subject (prefixed_name (namespace (pn_prefix)) (pn_local)))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list (rdf_literal (string)))))))
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list (rdf_literal (string))))))))
 
 ========
 Numbers
@@ -252,14 +266,17 @@ Numbers
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (prefixed_name (namespace) (pn_local)))
-        (object_list (integer))
+        (property
+          (predicate (prefixed_name (namespace) (pn_local)))
+          (object_list (integer)))
         (comment)
-        (predicate (prefixed_name (namespace) (pn_local)))
-        (object_list (decimal))
+        (property
+          (predicate (prefixed_name (namespace) (pn_local)))
+          (object_list (decimal)))
         (comment)
-        (predicate (prefixed_name (namespace) (pn_local)))
-        (object_list (double)))))
+        (property
+          (predicate (prefixed_name (namespace) (pn_local)))
+          (object_list (double))))))
         (comment))
 
 =========
@@ -275,8 +292,9 @@ Booleans
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (prefixed_name (namespace) (pn_local)))
-        (object_list (boolean_literal))))))
+        (property
+          (predicate (prefixed_name (namespace) (pn_local)))
+          (object_list (boolean_literal)))))))
 
 ============
 Blank nodes
@@ -291,8 +309,9 @@ _:alice foaf:knows _:bob .
     (triples
       (subject (blank_node_label))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list (blank_node_label)))))) 
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list (blank_node_label)))))))
 
 ===================
 Nested blank nodes
@@ -308,12 +327,14 @@ Nested blank nodes
     (triples
       (subject (anon))
       (property_list
-        (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-        (object_list
-          (blank_node_property_list
-            (property_list
-              (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
-              (object_list (rdf_literal (string)))))))))) 
+        (property
+          (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+          (object_list
+            (blank_node_property_list
+              (property_list
+                (property
+                  (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
+                  (object_list (rdf_literal (string))))))))))))
 
 ============
 Collections
@@ -328,12 +349,14 @@ Collections
     (triples
       (subject (collection))
       (property_list
-        (predicate (prefixed_name (namespace) (pn_local)))
-        (object_list
-          (collection
-            (prefixed_name (namespace) (pn_local))
-            (prefixed_name (namespace) (pn_local))
-            (prefixed_name (namespace) (pn_local)))))))) 
+        (property
+          (predicate (prefixed_name (namespace) (pn_local)))
+          (object_list
+            (collection
+              (object_collection
+                (prefixed_name (namespace) (pn_local))
+                (prefixed_name (namespace) (pn_local))
+                (prefixed_name (namespace) (pn_local))))))))))
 
 =====
 Verb
@@ -348,8 +371,9 @@ Verb
     (triples
       (subject (prefixed_name (namespace) (pn_local)))
       (property_list
-        (predicate (prefixed_name (namespace) (pn_local)))
-        (object_list (prefixed_name (namespace) (pn_local)))))))
+        (property
+          (predicate (prefixed_name (namespace) (pn_local)))
+          (object_list (prefixed_name (namespace) (pn_local))))))))
 
 =================
 Escape sequences
@@ -364,8 +388,9 @@ Escape sequences
     (triples
       (subject (iri_reference))
       (property_list
-        (predicate (iri_reference))
-        (object_list (rdf_literal
-          (string
-            (echar)
-            (echar)))))))) 
+        (property
+          (predicate (iri_reference))
+          (object_list (rdf_literal
+            (string
+              (echar)
+              (echar)))))))))

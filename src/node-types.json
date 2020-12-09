@@ -44,8 +44,70 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
+      "types": [
+        {
+          "type": "object_collection",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "base",
+          "named": true
+        },
+        {
+          "type": "prefix_id",
+          "named": true
+        },
+        {
+          "type": "sparql_base",
+          "named": true
+        },
+        {
+          "type": "sparql_prefix",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "iri_reference",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "namespace",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "pn_prefix",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "object_collection",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "anon",
@@ -89,48 +151,6 @@
         },
         {
           "type": "rdf_literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "directive",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "base",
-          "named": true
-        },
-        {
-          "type": "prefix_id",
-          "named": true
-        },
-        {
-          "type": "sparql_base",
-          "named": true
-        },
-        {
-          "type": "sparql_prefix",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "namespace",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "pn_prefix",
           "named": true
         }
       ]
@@ -249,7 +269,7 @@
     }
   },
   {
-    "type": "property_list",
+    "type": "property",
     "named": true,
     "fields": {},
     "children": {
@@ -262,6 +282,21 @@
         },
         {
           "type": "predicate",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "property_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "property",
           "named": true
         }
       ]
@@ -367,7 +402,17 @@
   {
     "type": "string",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "echar",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "subject",
@@ -439,6 +484,30 @@
     }
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "\"\"",
+    "named": false
+  },
+  {
+    "type": "\"\"\"",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": "''",
+    "named": false
+  },
+  {
+    "type": "'''",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -460,6 +529,14 @@
   },
   {
     "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": ">",
     "named": false
   },
   {
@@ -515,15 +592,15 @@
     "named": true
   },
   {
+    "type": "echar",
+    "named": true
+  },
+  {
     "type": "false",
     "named": false
   },
   {
     "type": "integer",
-    "named": true
-  },
-  {
-    "type": "iri_reference",
     "named": true
   },
   {

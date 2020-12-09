@@ -1,0 +1,95 @@
+@base <http://one.example/> .
+BASE <http://one.example/>
+@prefix p: <http://two.example/> .
+PREFIX p: <http://two.example/>
+<http://example.org/#spiderman> <http://www.perceive.net/enemyOf> <http://example.org/#green-goblin> .
+<http://example.org/#spiderman> <http://www.perceive.net/enemyOf> <http://example.org/#green-goblin> ;
+                                <http://xmlns.com/foaf/0.1/name> "Spiderman" .
+<http://example.org/#spiderman> <http://xmlns.com/foaf/0.1/name> "Spiderman", "Человек-паук"@ru .
+<http://one.example/subject1> <http://one.example/predicate1> <http://one.example/object1> .
+<subject2> <predicate2> <object2> . 
+p:subject3 p:predicate3 p:object3 .
+:subject5 a :object5 .
+<http://伝言.example/?user=أكرم&amp;channel=R%26D> a :subject8 .
+show:218 rdfs:label "That Sev\tenties Show"^^xsd:string .
+show:218 rdfs:label "That Seventies Show"^^<http://www.w3.org/2001/XMLSchema#string> .
+show:218 rdfs:label "That S\\eventies Show" .
+show:218 show:localName 'That Seventies Show'@fr-be .
+show:218 show:blurb '''This is a multi-line
+literal with many quotes (""""")
+and up to two sequential apostrophes ('').''' .
+<http://en.wikipedia.org/wiki/Helium>
+    :atomicNumber 2 ;               # xsd:integer
+    :atomicMass 4.002602 ;          # xsd:decimal
+    :specificGravity 1.663E-4 .     # xsd:double
+<http://somecountry.example/census2007> :isLandlocked false .
+_:alice foaf:knows _:bob .
+[] foaf:knows [ 
+        foaf:name "Bob" ;
+        foaf:name "Bob" ;
+    ] .
+() :predicate ( :a :b :c ) .
+
+# baseURI: http://www.w3.org/2006/time
+
+@prefix : <http://www.w3.org/2006/time#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://www.w3.org/2006/time>
+  rdf:type owl:Ontology ;
+  dct:contributor <mailto:chris.little@metoffice.gov.uk> ;
+  dct:created "2006-09-27"^^xsd:date ;
+  dct:creator <http://orcid.org/0000-0002-3884-3420> ;
+  dct:creator <https://en.wikipedia.org/wiki/Jerry_Hobbs> ;
+  dct:creator <mailto:panfeng66@gmail.com> ;
+  dct:isVersionOf <http://www.w3.org/TR/owl-time> ;
+  dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:modified "2017-04-06"^^xsd:date ;
+  dct:rights "Copyright © 2006-2017 W3C, OGC. W3C and OGC liability, trademark and document use rules apply."@en ;
+  rdfs:label "OWL-Time"@en ;
+  rdfs:seeAlso <http://dx.doi.org/10.3233/SW-150187> ;
+  rdfs:seeAlso <http://www.semantic-web-journal.net/content/time-ontology-extended-non-gregorian-calendar-applications> ;
+  rdfs:seeAlso <http://www.w3.org/TR/owl-time> ;
+  owl:priorVersion <http://www.w3.org/2006/time#2006> ;
+  owl:versionIRI <http://www.w3.org/2006/time#2016> ;
+  skos:changeNote "2016-06-15 - initial update of OWL-Time - modified to support arbitrary temporal reference systems. " ;
+  skos:changeNote "2016-12-20 - adjust range of time:timeZone to time:TimeZone, moved up from the tzont ontology.  " ;
+  skos:changeNote "2016-12-20 - restore time:Year and time:January which were present in the 2006 version of the ontology, but now marked \"deprecated\". " ;
+  skos:changeNote "2017-02 - intervalIn, intervalDisjoint, monthOfYear added; TemporalUnit subclass of TemporalDuration" ;
+  skos:changeNote "2017-04-06 - hasTime, hasXSDDuration added; Number removed; all duration elements changed to xsd:decimal" ;
+  skos:historyNote """Update of OWL-Time ontology, extended to support general temporal reference systems. 
+
+Ontology engineering by Simon J D Cox"""@en ;
+.
+:DateTimeDescription
+  rdf:type owl:Class ;
+  rdfs:comment "Description of date and time structured with separate values for the various elements of a calendar-clock system. The temporal reference system is fixed to Gregorian Calendar, and the range of year, month, day properties restricted to corresponding XML Schema types xsd:gYear, xsd:gMonth and xsd:gDay, respectively."@en ;
+  rdfs:label "Date-Time description"@en ;
+  rdfs:subClassOf :GeneralDateTimeDescription ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:allValuesFrom xsd:gDay ;
+      owl:onProperty :day ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:allValuesFrom xsd:gMonth ;
+      owl:onProperty :month ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:allValuesFrom xsd:gYear ;
+      owl:onProperty :year ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:hasValue <http://www.opengis.net/def/uom/ISO-8601/0/Gregorian> ;
+      owl:onProperty :hasTRS ;
+    ] ;
+  skos:definition "Description of date and time structured with separate values for the various elements of a calendar-clock system. The temporal reference system is fixed to Gregorian Calendar, and the range of year, month, day properties restricted to corresponding XML Schema types xsd:gYear, xsd:gMonth and xsd:gDay, respectively."@en ;
+.
