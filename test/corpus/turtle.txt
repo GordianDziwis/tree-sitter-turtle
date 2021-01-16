@@ -146,6 +146,7 @@ Base
 
 @base <http://one.example/> .
 BASE <http://one.example/>
+BAse <http://one.example/>
 
 ---
 
@@ -155,7 +156,10 @@ BASE <http://one.example/>
       (base (iri_reference))))
   (statement
     (directive
-      (sparql_base (iri_reference)))))
+      (sparql_base (iri_reference))))
+  (statement
+      (directive
+        (sparql_base (iri_reference)))))
 
 =======
 Prefix
@@ -163,6 +167,7 @@ Prefix
 
 @prefix p: <http://two.example/> .
 PREFIX p: <http://two.example/>
+PREfix p: <http://two.example/>
 
 ---
 
@@ -170,6 +175,9 @@ PREFIX p: <http://two.example/>
   (statement 
     (directive
       (prefix_id (namespace (pn_prefix)) (iri_reference))))
+  (statement
+    (directive
+      (sparql_prefix (namespace (pn_prefix)) (iri_reference))))
   (statement
     (directive
       (sparql_prefix (namespace (pn_prefix)) (iri_reference)))))

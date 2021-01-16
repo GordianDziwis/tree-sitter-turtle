@@ -80,7 +80,17 @@ const PN_LOCAL_ESC = [
   '%'
 ].map(char => '\\' + char)
 
-
+String.prototype.toCaseInsensitiv = function () {
+  return alias(
+    token(new RegExp(
+      this
+        .split('')
+        .map(letter => `[${letter}${letter.toLowerCase()}]`)
+        .join('')
+    )),
+    this
+  )
+}
 
 module.exports = grammar({
   name: 'turtle',
@@ -130,13 +140,13 @@ module.exports = grammar({
 
     // [5s]
     sparql_base: $ => seq(
-      'BASE',
+      'BASE'.toCaseInsensitiv(),
       $.iri_reference,
     ),
 
     // [6s]
     sparql_prefix: $ => seq(
-      'PREFIX',
+      'PREFIX'.toCaseInsensitiv(),
       $.namespace,
       $.iri_reference,
     ),

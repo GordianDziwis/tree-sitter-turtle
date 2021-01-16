@@ -21,8 +21,8 @@ enum {
   anon_sym_DOT = 3,
   anon_sym_ATprefix = 4,
   anon_sym_ATbase = 5,
-  anon_sym_BASE = 6,
-  anon_sym_PREFIX = 7,
+  aux_sym_sparql_base_token1 = 6,
+  aux_sym_sparql_prefix_token1 = 7,
   anon_sym_SEMI = 8,
   anon_sym_COMMA = 9,
   anon_sym_a = 10,
@@ -106,8 +106,8 @@ static const char *ts_symbol_names[] = {
   [anon_sym_DOT] = ".",
   [anon_sym_ATprefix] = "@prefix",
   [anon_sym_ATbase] = "@base",
-  [anon_sym_BASE] = "BASE",
-  [anon_sym_PREFIX] = "PREFIX",
+  [aux_sym_sparql_base_token1] = "BASE",
+  [aux_sym_sparql_prefix_token1] = "PREFIX",
   [anon_sym_SEMI] = ";",
   [anon_sym_COMMA] = ",",
   [anon_sym_a] = "a",
@@ -191,8 +191,8 @@ static TSSymbol ts_symbol_map[] = {
   [anon_sym_DOT] = anon_sym_DOT,
   [anon_sym_ATprefix] = anon_sym_ATprefix,
   [anon_sym_ATbase] = anon_sym_ATbase,
-  [anon_sym_BASE] = anon_sym_BASE,
-  [anon_sym_PREFIX] = anon_sym_PREFIX,
+  [aux_sym_sparql_base_token1] = aux_sym_sparql_base_token1,
+  [aux_sym_sparql_prefix_token1] = aux_sym_sparql_prefix_token1,
   [anon_sym_SEMI] = anon_sym_SEMI,
   [anon_sym_COMMA] = anon_sym_COMMA,
   [anon_sym_a] = anon_sym_a,
@@ -294,11 +294,11 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .visible = true,
     .named = false,
   },
-  [anon_sym_BASE] = {
+  [aux_sym_sparql_base_token1] = {
     .visible = true,
     .named = false,
   },
-  [anon_sym_PREFIX] = {
+  [aux_sym_sparql_prefix_token1] = {
     .visible = true,
     .named = false,
   },
@@ -1673,75 +1673,85 @@ static bool ts_lex_keywords(TSLexer *lexer, TSStateId state) {
   eof = lexer->eof(lexer);
   switch (state) {
     case 0:
-      if (lookahead == 'B') ADVANCE(1);
-      if (lookahead == 'P') ADVANCE(2);
-      if (lookahead == 'a') ADVANCE(3);
-      if (lookahead == 'f') ADVANCE(4);
-      if (lookahead == 't') ADVANCE(5);
+      if (lookahead == 'a') ADVANCE(1);
+      if (lookahead == 'f') ADVANCE(2);
+      if (lookahead == 't') ADVANCE(3);
+      if (lookahead == 'B' ||
+          lookahead == 'b') ADVANCE(4);
+      if (lookahead == 'P' ||
+          lookahead == 'p') ADVANCE(5);
       if (lookahead == '\t' ||
           lookahead == '\n' ||
           lookahead == '\r' ||
           lookahead == ' ') SKIP(0)
       END_STATE();
     case 1:
-      if (lookahead == 'A') ADVANCE(6);
-      END_STATE();
-    case 2:
-      if (lookahead == 'R') ADVANCE(7);
-      END_STATE();
-    case 3:
       ACCEPT_TOKEN(anon_sym_a);
       END_STATE();
+    case 2:
+      if (lookahead == 'a') ADVANCE(6);
+      END_STATE();
+    case 3:
+      if (lookahead == 'r') ADVANCE(7);
+      END_STATE();
     case 4:
-      if (lookahead == 'a') ADVANCE(8);
+      if (lookahead == 'A' ||
+          lookahead == 'a') ADVANCE(8);
       END_STATE();
     case 5:
-      if (lookahead == 'r') ADVANCE(9);
+      if (lookahead == 'R' ||
+          lookahead == 'r') ADVANCE(9);
       END_STATE();
     case 6:
-      if (lookahead == 'S') ADVANCE(10);
+      if (lookahead == 'l') ADVANCE(10);
       END_STATE();
     case 7:
-      if (lookahead == 'E') ADVANCE(11);
+      if (lookahead == 'u') ADVANCE(11);
       END_STATE();
     case 8:
-      if (lookahead == 'l') ADVANCE(12);
+      if (lookahead == 'S' ||
+          lookahead == 's') ADVANCE(12);
       END_STATE();
     case 9:
-      if (lookahead == 'u') ADVANCE(13);
+      if (lookahead == 'E' ||
+          lookahead == 'e') ADVANCE(13);
       END_STATE();
     case 10:
-      if (lookahead == 'E') ADVANCE(14);
+      if (lookahead == 's') ADVANCE(14);
       END_STATE();
     case 11:
-      if (lookahead == 'F') ADVANCE(15);
+      if (lookahead == 'e') ADVANCE(15);
       END_STATE();
     case 12:
-      if (lookahead == 's') ADVANCE(16);
+      if (lookahead == 'E' ||
+          lookahead == 'e') ADVANCE(16);
       END_STATE();
     case 13:
-      if (lookahead == 'e') ADVANCE(17);
+      if (lookahead == 'F' ||
+          lookahead == 'f') ADVANCE(17);
       END_STATE();
     case 14:
-      ACCEPT_TOKEN(anon_sym_BASE);
+      if (lookahead == 'e') ADVANCE(18);
       END_STATE();
     case 15:
-      if (lookahead == 'I') ADVANCE(18);
-      END_STATE();
-    case 16:
-      if (lookahead == 'e') ADVANCE(19);
-      END_STATE();
-    case 17:
       ACCEPT_TOKEN(anon_sym_true);
       END_STATE();
-    case 18:
-      if (lookahead == 'X') ADVANCE(20);
+    case 16:
+      ACCEPT_TOKEN(aux_sym_sparql_base_token1);
       END_STATE();
-    case 19:
+    case 17:
+      if (lookahead == 'I' ||
+          lookahead == 'i') ADVANCE(19);
+      END_STATE();
+    case 18:
       ACCEPT_TOKEN(anon_sym_false);
       END_STATE();
+    case 19:
+      if (lookahead == 'X' ||
+          lookahead == 'x') ADVANCE(20);
+      END_STATE();
     case 20:
-      ACCEPT_TOKEN(anon_sym_PREFIX);
+      ACCEPT_TOKEN(aux_sym_sparql_prefix_token1);
       END_STATE();
     default:
       return false;
@@ -1856,8 +1866,8 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_DOT] = ACTIONS(1),
     [anon_sym_ATprefix] = ACTIONS(1),
     [anon_sym_ATbase] = ACTIONS(1),
-    [anon_sym_BASE] = ACTIONS(1),
-    [anon_sym_PREFIX] = ACTIONS(1),
+    [aux_sym_sparql_base_token1] = ACTIONS(1),
+    [aux_sym_sparql_prefix_token1] = ACTIONS(1),
     [anon_sym_SEMI] = ACTIONS(1),
     [anon_sym_COMMA] = ACTIONS(1),
     [anon_sym_a] = ACTIONS(1),
@@ -1909,8 +1919,8 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_comment] = ACTIONS(3),
     [anon_sym_ATprefix] = ACTIONS(9),
     [anon_sym_ATbase] = ACTIONS(11),
-    [anon_sym_BASE] = ACTIONS(13),
-    [anon_sym_PREFIX] = ACTIONS(15),
+    [aux_sym_sparql_base_token1] = ACTIONS(13),
+    [aux_sym_sparql_prefix_token1] = ACTIONS(15),
     [anon_sym_LBRACK] = ACTIONS(17),
     [anon_sym_LPAREN] = ACTIONS(19),
     [anon_sym_LT] = ACTIONS(21),
@@ -2216,9 +2226,9 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(116), 1,
       anon_sym_ATbase,
     ACTIONS(119), 1,
-      anon_sym_BASE,
+      aux_sym_sparql_base_token1,
     ACTIONS(122), 1,
-      anon_sym_PREFIX,
+      aux_sym_sparql_prefix_token1,
     ACTIONS(125), 1,
       anon_sym_LBRACK,
     ACTIONS(128), 1,
@@ -2266,9 +2276,9 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(11), 1,
       anon_sym_ATbase,
     ACTIONS(13), 1,
-      anon_sym_BASE,
+      aux_sym_sparql_base_token1,
     ACTIONS(15), 1,
-      anon_sym_PREFIX,
+      aux_sym_sparql_prefix_token1,
     ACTIONS(17), 1,
       anon_sym_LBRACK,
     ACTIONS(19), 1,
@@ -2313,8 +2323,8 @@ static uint16_t ts_small_parse_table[] = {
       sym_comment,
     ACTIONS(147), 12,
       anon_sym_DOT,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_a,
       anon_sym_LBRACK,
       sym_integer,
@@ -2951,8 +2961,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(3), 1,
       sym_comment,
     ACTIONS(249), 4,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_LBRACK,
       sym_pn_prefix,
     ACTIONS(247), 8,
@@ -2968,8 +2978,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(3), 1,
       sym_comment,
     ACTIONS(253), 4,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_LBRACK,
       sym_pn_prefix,
     ACTIONS(251), 8,
@@ -2985,8 +2995,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(3), 1,
       sym_comment,
     ACTIONS(257), 4,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_LBRACK,
       sym_pn_prefix,
     ACTIONS(255), 8,
@@ -3002,8 +3012,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(3), 1,
       sym_comment,
     ACTIONS(261), 4,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_LBRACK,
       sym_pn_prefix,
     ACTIONS(259), 8,
@@ -3019,8 +3029,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(3), 1,
       sym_comment,
     ACTIONS(265), 4,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_LBRACK,
       sym_pn_prefix,
     ACTIONS(263), 8,
@@ -3061,8 +3071,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(3), 1,
       sym_comment,
     ACTIONS(271), 4,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_LBRACK,
       sym_pn_prefix,
     ACTIONS(269), 8,
@@ -3078,8 +3088,8 @@ static uint16_t ts_small_parse_table[] = {
     ACTIONS(3), 1,
       sym_comment,
     ACTIONS(275), 4,
-      anon_sym_BASE,
-      anon_sym_PREFIX,
+      aux_sym_sparql_base_token1,
+      aux_sym_sparql_prefix_token1,
       anon_sym_LBRACK,
       sym_pn_prefix,
     ACTIONS(273), 8,

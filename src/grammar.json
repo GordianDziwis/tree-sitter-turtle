@@ -98,7 +98,15 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[Bb][Aa][Ss][Ee]"
+            }
+          },
+          "named": false,
           "value": "BASE"
         },
         {
@@ -111,7 +119,15 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
+          "type": "ALIAS",
+          "content": {
+            "type": "TOKEN",
+            "content": {
+              "type": "PATTERN",
+              "value": "[Pp][Rr][Ee][Ff][Ii][Xx]"
+            }
+          },
+          "named": false,
           "value": "PREFIX"
         },
         {
