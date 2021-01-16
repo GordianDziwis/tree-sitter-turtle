@@ -1,0 +1,35 @@
+@base <http://one.example/> .
+BASE <http://one.example/>
+@prefix p: <http://two.example/> .
+PREFIX p: <http://two.example/>
+
+# Seperate triples by highlight
+<s>  <p> foo:o .
+_:s <p> <0> .
+<s>
+  # a != :a
+  a <o> ;
+  :a <o> ;
+  # Types in one highlight
+  <p> 'foo'@foo-bar ;
+  <p> 'foo'^^<http://example.org/foo> ;
+  <p> 'foo'^^foo:bar ;
+  # Numerics
+  <p> 1 ;
+  <p> -1.0 ;
+  <p> 1E-1 ;
+  # Weird iri references
+  <p> <http://伝言.example/?user=أكرم&amp;channel=R%26D> ;
+  # String escapes
+  <p> 'foo\tbar\\foo\bar' ;
+  # Multiline strings
+  <p> '''This is a multi-line
+  literal with many quotes (""""")
+  and up to two sequential apostrophes ('').''' ;
+  # Booleans
+  <p> false .
+[] <p> [ 
+        <p> 'a' ;
+        <p> 'b' ;
+    ] .
+() <p> ( :a :b :c ) .

@@ -1,5 +1,6 @@
 :DateTimeDescription
   rdf:type owl:Class ;
+  rdf:type owl:Class ;
   rdfs:subClassOf :GeneralDateTimeDescription, :test ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
