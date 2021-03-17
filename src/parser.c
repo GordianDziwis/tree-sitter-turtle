@@ -5,7 +5,7 @@
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #endif
 
-#define LANGUAGE_VERSION 12
+#define LANGUAGE_VERSION 13
 #define STATE_COUNT 97
 #define LARGE_STATE_COUNT 2
 #define SYMBOL_COUNT 82
@@ -14,6 +14,7 @@
 #define EXTERNAL_TOKEN_COUNT 0
 #define FIELD_COUNT 2
 #define MAX_ALIAS_SEQUENCE_LENGTH 4
+#define PRODUCTION_ID_COUNT 3
 
 enum {
   sym_pn_prefix = 1,
@@ -611,7 +612,7 @@ static const char *ts_field_names[] = {
   [field_value] = "value",
 };
 
-static const TSFieldMapSlice ts_field_map_slices[3] = {
+static const TSFieldMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
   [1] = {.index = 0, .length = 1},
   [2] = {.index = 1, .length = 3},
 };
@@ -625,7 +626,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_value, 0},
 };
 
-static TSSymbol ts_alias_sequences[3][MAX_ALIAS_SEQUENCE_LENGTH] = {
+static TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
   [0] = {0},
 };
 
@@ -633,19 +634,20 @@ static uint16_t ts_non_terminal_alias_map[] = {
   0,
 };
 
-static inline bool sym_pn_local_character_set_1(int32_t lookahead) {
-  return
-    lookahead == '-' ||
-    lookahead == ':' ||
-    ('A' <= lookahead && lookahead <= 'D') ||
-    ('F' <= lookahead && lookahead <= 'Z') ||
-    lookahead == '_' ||
-    ('a' <= lookahead && lookahead <= 'd') ||
-    ('f' <= lookahead && lookahead <= 'z') ||
-    lookahead == 183 ||
-    (768 <= lookahead && lookahead <= 879) ||
-    lookahead == 8255 ||
-    lookahead == 8256;
+static inline bool sym_pn_local_character_set_1(int32_t c) {
+  return (c < 'a'
+    ? (c < 'A'
+      ? (c < ':'
+        ? c == '-'
+        : c <= ':')
+      : (c <= 'D' || (c < '_'
+        ? (c >= 'F' && c <= 'Z')
+        : c <= '_')))
+    : (c <= 'd' || (c < 768
+      ? (c < 183
+        ? (c >= 'f' && c <= 'z')
+        : c <= 183)
+      : (c <= 879 || (c >= 8255 && c <= 8256)))));
 }
 
 static bool ts_lex(TSLexer *lexer, TSStateId state) {
@@ -1330,7 +1332,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '#') ADVANCE(89);
       if (lookahead == '\\') ADVANCE(24);
       if (lookahead != 0 &&
-          (lookahead < 0 || ' ' < lookahead) &&
+          lookahead > ' ' &&
           lookahead != '"' &&
           lookahead != '<' &&
           lookahead != '>' &&
@@ -1342,7 +1344,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(aux_sym_iri_reference_token1);
       if (lookahead == '\\') ADVANCE(24);
       if (lookahead != 0 &&
-          (lookahead < 0 || ' ' < lookahead) &&
+          lookahead > ' ' &&
           lookahead != '"' &&
           lookahead != '<' &&
           lookahead != '>' &&
@@ -3943,26 +3945,27 @@ extern const TSLanguage *tree_sitter_turtle(void) {
     .alias_count = ALIAS_COUNT,
     .token_count = TOKEN_COUNT,
     .external_token_count = EXTERNAL_TOKEN_COUNT,
-    .symbol_names = ts_symbol_names,
-    .symbol_metadata = ts_symbol_metadata,
-    .parse_table = (const uint16_t *)ts_parse_table,
-    .parse_actions = ts_parse_actions,
-    .lex_modes = ts_lex_modes,
-    .alias_sequences = (const TSSymbol *)ts_alias_sequences,
+    .state_count = STATE_COUNT,
+    .large_state_count = LARGE_STATE_COUNT,
+    .production_id_count = PRODUCTION_ID_COUNT,
+    .field_count = FIELD_COUNT,
     .max_alias_sequence_length = MAX_ALIAS_SEQUENCE_LENGTH,
+    .parse_table = (const uint16_t *)ts_parse_table,
+    .small_parse_table = (const uint16_t *)ts_small_parse_table,
+    .small_parse_table_map = (const uint32_t *)ts_small_parse_table_map,
+    .parse_actions = ts_parse_actions,
+    .symbol_names = ts_symbol_names,
+    .field_names = ts_field_names,
+    .field_map_slices = (const TSFieldMapSlice *)ts_field_map_slices,
+    .field_map_entries = (const TSFieldMapEntry *)ts_field_map_entries,
+    .symbol_metadata = ts_symbol_metadata,
+    .public_symbol_map = ts_symbol_map,
+    .alias_map = ts_non_terminal_alias_map,
+    .alias_sequences = (const TSSymbol *)ts_alias_sequences,
+    .lex_modes = ts_lex_modes,
     .lex_fn = ts_lex,
     .keyword_lex_fn = ts_lex_keywords,
     .keyword_capture_token = sym_pn_prefix,
-    .field_count = FIELD_COUNT,
-    .field_map_slices = (const TSFieldMapSlice *)ts_field_map_slices,
-    .field_map_entries = (const TSFieldMapEntry *)ts_field_map_entries,
-    .field_names = ts_field_names,
-    .large_state_count = LARGE_STATE_COUNT,
-    .small_parse_table = (const uint16_t *)ts_small_parse_table,
-    .small_parse_table_map = (const uint32_t *)ts_small_parse_table_map,
-    .public_symbol_map = ts_symbol_map,
-    .alias_map = ts_non_terminal_alias_map,
-    .state_count = STATE_COUNT,
   };
   return &language;
 }

@@ -402,3 +402,20 @@ Escape sequences
             (string
               (echar)
               (echar)))))))))
+
+==============
+Hex sequences
+==============
+
+<s> <p> <http://www.dit.unitn.it/\u0020pavel/om2017/papers/oaei17_paper11.pdf> .
+
+---
+
+(turtle_doc
+  (statement
+    (triples
+      (subject (iri_reference))
+      (property_list
+        (property
+          (predicate (iri_reference))
+          (object_list (iri_reference)))))))
