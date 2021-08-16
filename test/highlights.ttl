@@ -28,6 +28,8 @@ _:s <p> <0> .
   <p> '''This is a multi-line
   literal with many quotes (""""")
   and up to two sequential apostrophes ('').''' ;
+  # String with #
+  <p> "foo#" ;
   # Booleans
   <p> false .
 [] <p> [ 

@@ -107,7 +107,7 @@ module.exports = grammar({
     // [1]
     turtle_doc: $ => repeat($.statement),
 
-    comment: $ => /#.*/,
+    comment: $ => token(prec(-1, /#.*/)),
 
     // [2]
     statement: $ => choice(

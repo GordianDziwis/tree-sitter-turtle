@@ -258,6 +258,20 @@ and up to two sequential apostrophes ('').''' .
           (predicate (prefixed_name (namespace (pn_prefix)) (pn_local)))
           (object_list (rdf_literal (string))))))))
 
+=================
+String with Hash
+=================
+
+<s> <p> "foo#" .
+
+---
+
+(turtle_doc (statement (triples
+  (subject (iri_reference))
+  (property_list (property 
+    (predicate (iri_reference))
+    (object_list (rdf_literal (string))))))))
+
 ========
 Numbers
 ========

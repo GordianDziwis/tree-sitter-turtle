@@ -10,8 +10,15 @@
       }
     },
     "comment": {
-      "type": "PATTERN",
-      "value": "#.*"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "PATTERN",
+          "value": "#.*"
+        }
+      }
     },
     "statement": {
       "type": "CHOICE",
