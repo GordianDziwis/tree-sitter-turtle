@@ -3,10 +3,13 @@ BASE <http://one.example/>
 @prefix p: <http://two.example/> .
 PREFIX p: <http://two.example/>
 
+base: <o> <s>.
 # Seperate triples by highlight
 <s> <o> <http://www.example.org/\u0020bar> .
 <s>  <p> foo:o .
 _:s <p> <0> .
+# a != :a
+:a :a :a .
 <s>
   # a != :a
   a <o> ;

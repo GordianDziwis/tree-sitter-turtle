@@ -100,7 +100,7 @@ module.exports = grammar({
     /\s/
   ],
 
-  word: $ => $.pn_prefix,
+  word: $ => $.pname_ns,
 
   rules: {
 
@@ -126,7 +126,7 @@ module.exports = grammar({
     // [4]
     prefix_id: $ => seq(
       '@prefix',
-      $.namespace,
+      $.pname_ns,
       $.iri_reference,
       '.'
     ),
@@ -147,7 +147,7 @@ module.exports = grammar({
     // [6s]
     sparql_prefix: $ => seq(
       'PREFIX'.toCaseInsensitiv(),
-      $.namespace,
+      $.pname_ns,
       $.iri_reference,
     ),
 
@@ -357,9 +357,9 @@ module.exports = grammar({
     ),
 
     // [136s]
-    prefixed_name: $ => seq(
-      $.namespace,
-      optional($.pn_local)
+    prefixed_name: $ => choice(
+      $.pname_ns,
+      $._pname_ln
     ),
 
     // [137s]
@@ -369,9 +369,25 @@ module.exports = grammar({
     ),
 
     // [139s]
-    namespace: $ => seq(
-      optional($.pn_prefix),
+    // [167s]
+    pname_ns: $ => token(seq(
+      optional(seq(
+        choice(...PN_CHARS_BASE),
+        optional(seq(
+          repeat(choice(
+            ...PN_CHARS,
+            '.'
+          )),
+          choice(...PN_CHARS)
+        ))
+      )),
       ':'
+    )),
+
+    // [140s]
+    _pname_ln: $ => seq(
+      $.pname_ns,
+      $.pn_local
     ),
 
     // [141s]
@@ -407,18 +423,6 @@ module.exports = grammar({
       '[',
       repeat(choice(...WS)),
       ']'
-    )),
-
-    // [167s]
-    pn_prefix: $ => token(seq(
-      choice(...PN_CHARS_BASE),
-      optional(seq(
-        repeat(choice(
-          ...PN_CHARS,
-          '.'
-        )),
-        choice(...PN_CHARS)
-      ))
     )),
 
     // [168s]
