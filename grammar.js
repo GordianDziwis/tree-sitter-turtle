@@ -191,7 +191,7 @@ module.exports = grammar({
     // [11]
     predicate: $ => choice(
       $._iri,
-      'a'
+      token(prec(0, 'a'))
     ),
 
     // [10]
