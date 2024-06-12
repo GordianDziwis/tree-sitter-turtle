@@ -970,7 +970,8 @@
                   },
                   {
                     "type": "PATTERN",
-                    "value": "[\\u{10000}-\\u{EFFFF}]"
+                    "value": "[\\u{10000}-\\u{EFFFF}]",
+                    "flags": "u"
                   },
                   {
                     "type": "STRING",
@@ -1047,7 +1048,8 @@
                             },
                             {
                               "type": "PATTERN",
-                              "value": "[\\u{10000}-\\u{EFFFF}]"
+                              "value": "[\\u{10000}-\\u{EFFFF}]",
+                              "flags": "u"
                             },
                             {
                               "type": "STRING",
@@ -1137,7 +1139,8 @@
                           },
                           {
                             "type": "PATTERN",
-                            "value": "[\\u{10000}-\\u{EFFFF}]"
+                            "value": "[\\u{10000}-\\u{EFFFF}]",
+                            "flags": "u"
                           },
                           {
                             "type": "STRING",
@@ -1315,7 +1318,8 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[\\u{10000}-\\u{EFFFF}]"
+                "value": "[\\u{10000}-\\u{EFFFF}]",
+                "flags": "u"
               }
             ]
           },
@@ -1384,7 +1388,8 @@
                         },
                         {
                           "type": "PATTERN",
-                          "value": "[\\u{10000}-\\u{EFFFF}]"
+                          "value": "[\\u{10000}-\\u{EFFFF}]",
+                          "flags": "u"
                         },
                         {
                           "type": "STRING",
@@ -1474,7 +1479,8 @@
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[\\u{10000}-\\u{EFFFF}]"
+                        "value": "[\\u{10000}-\\u{EFFFF}]",
+                        "flags": "u"
                       },
                       {
                         "type": "STRING",
@@ -1574,7 +1580,8 @@
               },
               {
                 "type": "PATTERN",
-                "value": "[\\u{10000}-\\u{EFFFF}]"
+                "value": "[\\u{10000}-\\u{EFFFF}]",
+                "flags": "u"
               },
               {
                 "type": "STRING",
@@ -1778,7 +1785,8 @@
                         },
                         {
                           "type": "PATTERN",
-                          "value": "[\\u{10000}-\\u{EFFFF}]"
+                          "value": "[\\u{10000}-\\u{EFFFF}]",
+                          "flags": "u"
                         },
                         {
                           "type": "STRING",
@@ -1995,7 +2003,8 @@
                       },
                       {
                         "type": "PATTERN",
-                        "value": "[\\u{10000}-\\u{EFFFF}]"
+                        "value": "[\\u{10000}-\\u{EFFFF}]",
+                        "flags": "u"
                       },
                       {
                         "type": "STRING",
@@ -2177,4 +2186,3 @@
   "inline": [],
   "supertypes": []
 }
-
