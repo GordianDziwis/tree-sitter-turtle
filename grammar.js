@@ -80,7 +80,7 @@ const PN_LOCAL_ESC = [
   '%'
 ].map(char => '\\' + char)
 
-String.prototype.toCaseInsensitiv = function() {
+String.prototype.toCaseInsensitive = function() {
   return alias(
     token(new RegExp(
       this
@@ -154,13 +154,13 @@ module.exports = grammar({
 
     // [5s]
     sparql_base: $ => seq(
-      'BASE'.toCaseInsensitiv(),
+      'BASE'.toCaseInsensitive(),
       $.iri_reference,
     ),
 
     // [6s]
     sparql_prefix: $ => seq(
-      'PREFIX'.toCaseInsensitiv(),
+      'PREFIX'.toCaseInsensitive(),
       $.namespace,
       $.iri_reference,
     ),

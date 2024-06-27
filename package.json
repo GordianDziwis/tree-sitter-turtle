@@ -50,7 +50,7 @@
   "tree-sitter": [
     {
       "scope": "source.turtle",
-      "injection-regex": "^turtle$"
+      "injection-regex": "^(turtle|trig)$"
     }
   ]
 }
