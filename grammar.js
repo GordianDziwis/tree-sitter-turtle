@@ -120,7 +120,7 @@ module.exports = grammar({
     ),
 
     // [7g] labelOrSubject ::= iri | BlankNode
-    _label: $ => seq(optional("GRAPH"), choice($._iri, $._blank_node)),
+    _label: $ => seq(optional('GRAPH'), choice($._iri, $._blank_node)),
 
     comment: _ => token(prec(-1, /#.*/)),
 
@@ -266,25 +266,26 @@ module.exports = grammar({
     ),
 
     // [18]
-    iri_reference: _ => seq(
-      '<',
-      token.immediate(repeat(choice(
-        /([^<>"{}|^`\\\x00-\x20])/,
-        UCHAR
-      ))),
-      token.immediate(
-        '>'
-      )
-    ),
+    iri_reference: _ =>
+      seq(
+        '<',
+        // expose <#leading> anchor for syntax highlighting
+        optional(token(prec(1, '#'))),
+        token.immediate(
+          repeat(choice(/([^<>"{}|^`\\\x00-\x20])/, UCHAR)),
+        ),
+
+        token.immediate('>'),
+      ),
 
     // [19]
-    integer: $ => token(/[+-]?\d+/),
+    integer: _ => token(/[+-]?\d+/),
 
     // [20]
-    decimal: $ => token(seq(/[+-]?/, /\d*/, '.', /\d+/)),
+    decimal: _ => token(seq(/[+-]?/, /\d*/, '.', /\d+/)),
 
     // [21]
-    double: $ => token(seq(
+    double: _ => token(seq(
       /[+-]?/,
       choice(
         seq(/\d+/, '.', /\d*/, seq(...EXPONENT)),
@@ -359,7 +360,7 @@ module.exports = grammar({
     ),
 
     // [133s]
-    boolean_literal: $ => choice(
+    boolean_literal: _ => choice(
       'true',
       'false'
     ),
@@ -389,7 +390,7 @@ module.exports = grammar({
     ),
 
     // [141s]
-    blank_node_label: $ => seq(
+    blank_node_label: _ => seq(
       '_:',
       token.immediate(seq(
         choice(
@@ -407,24 +408,24 @@ module.exports = grammar({
     ),
 
     // [144s]
-    lang_tag: $ => token(seq(
+    lang_tag: _ => token(seq(
       '@',
       /[a-zA-Z]+/,
       repeat(seq('-', /[a-zA-Z0-9]+/))
     )),
 
     // [159s]
-    echar: $ => /\\[tbnrf\\"']/,
+    echar: _ => /\\[tbnrf\\"']/,
 
     // [162s]
-    anon: $ => token(seq(
+    anon: _ => token(seq(
       '[',
       repeat(choice(...WS)),
       ']'
     )),
 
     // [167s]
-    pn_prefix: $ => token(seq(
+    pn_prefix: _ => token(seq(
       choice(...PN_CHARS_BASE),
       optional(seq(
         repeat(choice(
@@ -436,7 +437,7 @@ module.exports = grammar({
     )),
 
     // [168s]
-    pn_local: $ => token.immediate(seq(
+    pn_local: _ => token.immediate(seq(
       choice(
         ...PN_CHARS_U,
         ':',

@@ -511,6 +511,25 @@
           "value": "<"
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "TOKEN",
+              "content": {
+                "type": "PREC",
+                "value": 1,
+                "content": {
+                  "type": "STRING",
+                  "value": "#"
+                }
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "IMMEDIATE_TOKEN",
           "content": {
             "type": "REPEAT",
