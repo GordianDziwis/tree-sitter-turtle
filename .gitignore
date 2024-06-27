@@ -36,3 +36,14 @@ dist/
 *.wasm
 *.obj
 *.o
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+src/
+!src/scanner.c
+!src/grammar.json
+!src/node-types.json

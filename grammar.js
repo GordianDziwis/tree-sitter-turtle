@@ -8,7 +8,7 @@ const UCHAR = /(\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})/
 const EXPONENT = [
   /[eE]/,
   /[+-]?/,
-  /[0-9]+/
+  /\d+/
 ]
 
 // [161s]
@@ -43,7 +43,7 @@ const PN_CHARS_U = PN_CHARS_BASE.concat('_')
 // [166s]
 const PN_CHARS = PN_CHARS_U.concat([
   '-',
-  /[0-9]/,
+  /\d/,
   /[\u00B7]/,
   /[\u0300-\u036F]/,
   /[\u203F-\u2040]/
@@ -51,7 +51,7 @@ const PN_CHARS = PN_CHARS_U.concat([
 
 // [171s]
 const HEX = [
-  /[0-9]/,
+  /\d/,
   /[A-F]/,
   /[a-f]/
 ]
@@ -80,7 +80,7 @@ const PN_LOCAL_ESC = [
   '%'
 ].map(char => '\\' + char)
 
-String.prototype.toCaseInsensitiv = function () {
+String.prototype.toCaseInsensitiv = function() {
   return alias(
     token(new RegExp(
       this
@@ -104,16 +104,30 @@ module.exports = grammar({
 
   rules: {
 
-    // [1]
-    turtle_doc: $ => repeat($.statement),
+    // [1g] trigDoc ::= (directive | block)*
+    document: $ => repeat(choice($.directive, $.triple, $.graph)),
 
-    comment: $ => token(prec(-1, /#.*/)),
+    // wrappedGraph ::= '{' triplesBlock? '}'
+    // NOTE the last wrappedGraph triple does not have to terminate in a '.'
+    graph: $ => seq(
+      optional(field('label', $._label)),
+      '{',
+      seq(
+        repeat($.triple),
+        optional($._triples),
+      ),
+      '}',
+    ),
+
+    // [7g] labelOrSubject ::= iri | BlankNode
+    _label: $ => seq(optional("GRAPH"), choice($._iri, $._blank_node)),
+
+    comment: _ => token(prec(-1, /#.*/)),
 
     // [2]
-    statement: $ => choice(
-      $.directive,
-      seq($.triples, '.')
-    ),
+    // Triple Statement vs Graph Statement:
+    // https://www.w3.org/TR/trig/#sec-triple-statements
+    triple: $ => seq($._triples, '.'),
 
     // [3]
     directive: $ => choice(
@@ -152,7 +166,7 @@ module.exports = grammar({
     ),
 
     // [6]
-    triples: $ => choice(
+    _triples: $ => choice(
       seq(
         $.subject,
         $.property_list
@@ -252,7 +266,7 @@ module.exports = grammar({
     ),
 
     // [18]
-    iri_reference: $ => seq(
+    iri_reference: _ => seq(
       '<',
       token.immediate(repeat(choice(
         /([^<>"{}|^`\\\x00-\x20])/,
@@ -264,18 +278,18 @@ module.exports = grammar({
     ),
 
     // [19]
-    integer: $ => token(/[+-]?[0-9]+/),
+    integer: $ => token(/[+-]?\d+/),
 
     // [20]
-    decimal: $ => token(seq(/[+-]?/, /[0-9]*/, '.', /[0-9]+/)),
+    decimal: $ => token(seq(/[+-]?/, /\d*/, '.', /\d+/)),
 
     // [21]
     double: $ => token(seq(
       /[+-]?/,
       choice(
-        seq(/[0-9]+/, '.', /[0-9]*/, seq(...EXPONENT)),
-        seq('.', /[0-9]+/, seq(...EXPONENT)),
-        seq(/[0-9]+/, seq(...EXPONENT))
+        seq(/\d+/, '.', /\d*/, seq(...EXPONENT)),
+        seq('.', /\d+/, seq(...EXPONENT)),
+        seq(/\d+/, seq(...EXPONENT))
       ))
     ),
 
@@ -380,7 +394,7 @@ module.exports = grammar({
       token.immediate(seq(
         choice(
           ...PN_CHARS_U,
-          /[0-9]/
+          /\d/
         ),
         optional(seq(
           repeat(choice(
@@ -426,7 +440,7 @@ module.exports = grammar({
       choice(
         ...PN_CHARS_U,
         ':',
-        /[0-9]/,
+        /\d/,
         seq('%', choice(...HEX), choice(...HEX)),
         ...PN_LOCAL_ESC
       ),

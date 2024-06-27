@@ -1,0 +1,352 @@
+===============
+Single Graph Dataset
+===============
+
+@prefix ex: <http://www.example.org/vocabulary#> .
+@prefix : <http://www.example.org/exampleDocument#> .
+
+:G1 { :Monica a ex:Person ;
+              ex:name "Monica Murphy" ;
+              ex:homepage <http://www.monicamurphy.org> ;
+              ex:email <mailto:monica@monicamurphy.org> ;
+              ex:hasSkill ex:Management ,
+                          ex:Programming . }
+
+---
+
+(document
+  (directive
+    (prefix_id
+      (namespace
+        (pn_prefix))
+      (iri_reference)))
+  (directive
+    (prefix_id
+      (namespace)
+      (iri_reference)))
+  (graph
+    (prefixed_name
+      (namespace)
+      (pn_local))
+    (triple
+      (subject
+        (prefixed_name
+          (namespace)
+          (pn_local)))
+      (property_list
+        (property
+          (predicate)
+          (object_list
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local))))
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (rdf_literal
+              (string))))
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (iri_reference)))
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (iri_reference)))
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local))
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local))))))))
+
+================
+Default Graph and Named Graphs
+================
+
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# default graph
+    {
+      <http://example.org/bob> dc:publisher "Bob" .
+      <http://example.org/alice> dc:publisher "Alice" .
+    }
+
+<http://example.org/bob>
+    {
+       _:a foaf:name "Bob" .
+       _:a foaf:mbox <mailto:bob@oldcorp.example.org> .
+       _:a foaf:knows _:b .
+    }
+
+<http://example.org/alice>
+    {
+       _:b foaf:name "Alice" .
+       _:b foaf:mbox <mailto:alice@work.example.org> .
+    }
+
+---
+
+(document
+  (directive
+    (prefix_id
+      (namespace
+        (pn_prefix))
+      (iri_reference)))
+  (directive
+    (prefix_id
+      (namespace
+        (pn_prefix))
+      (iri_reference)))
+  (directive
+    (prefix_id
+      (namespace
+        (pn_prefix))
+      (iri_reference)))
+  (comment)
+  (graph
+    (triple
+      (subject
+        (iri_reference))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (rdf_literal
+              (string))))))
+    (triple
+      (subject
+        (iri_reference))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (rdf_literal
+              (string)))))))
+  (graph
+    (iri_reference)
+    (triple
+      (subject
+        (blank_node_label))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (rdf_literal
+              (string))))))
+    (triple
+      (subject
+        (blank_node_label))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (iri_reference)))))
+    (triple
+      (subject
+        (blank_node_label))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (blank_node_label))))))
+  (graph
+    (iri_reference)
+    (triple
+      (subject
+        (blank_node_label))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (rdf_literal
+              (string))))))
+    (triple
+      (subject
+        (blank_node_label))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (iri_reference)))))))
+
+=============
+Named Graph With Keyword
+=============
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+# default graph - no {} used.
+<http://example.org/bob> dc:publisher "Bob" .
+<http://example.org/alice> dc:publisher "Alice" .
+
+# GRAPH keyword to highlight a named graph
+# Abbreviation of triples using ;
+GRAPH <http://example.org/bob>
+{
+   [] foaf:name "Bob" ;
+      foaf:mbox <mailto:bob@oldcorp.example.org> ;
+      foaf:knows _:b .
+}
+
+GRAPH <http://example.org/alice>
+{
+    _:b foaf:name "Alice" ;
+        foaf:mbox <mailto:alice@work.example.org>
+}
+
+---
+
+(document
+  (directive
+    (prefix_id
+      (namespace
+        (pn_prefix))
+      (iri_reference)))
+  (directive
+    (prefix_id
+      (namespace
+        (pn_prefix))
+      (iri_reference)))
+  (directive
+    (prefix_id
+      (namespace
+        (pn_prefix))
+      (iri_reference)))
+  (comment)
+  (triple
+    (subject
+      (iri_reference))
+    (property_list
+      (property
+        (predicate
+          (prefixed_name
+            (namespace
+              (pn_prefix))
+            (pn_local)))
+        (object_list
+          (rdf_literal
+            (string))))))
+  (triple
+    (subject
+      (iri_reference))
+    (property_list
+      (property
+        (predicate
+          (prefixed_name
+            (namespace
+              (pn_prefix))
+            (pn_local)))
+        (object_list
+          (rdf_literal
+            (string))))))
+  (comment)
+  (comment)
+  (graph
+    (iri_reference)
+    (triple
+      (subject
+        (anon))
+      (property_list
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (rdf_literal
+              (string))))
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (iri_reference)))
+        (property
+          (predicate
+            (prefixed_name
+              (namespace
+                (pn_prefix))
+              (pn_local)))
+          (object_list
+            (blank_node_label))))))
+  (graph
+    (iri_reference)
+    (subject
+      (blank_node_label))
+    (property_list
+      (property
+        (predicate
+          (prefixed_name
+            (namespace
+              (pn_prefix))
+            (pn_local)))
+        (object_list
+          (rdf_literal
+            (string))))
+      (property
+        (predicate
+          (prefixed_name
+            (namespace
+              (pn_prefix))
+            (pn_local)))
+        (object_list
+          (iri_reference))))))
