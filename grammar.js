@@ -8,7 +8,7 @@ const UCHAR = /(\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})/
 const EXPONENT = [
   /[eE]/,
   /[+-]?/,
-  /[0-9]+/
+  /\d+/
 ]
 
 // [161s]
@@ -43,7 +43,7 @@ const PN_CHARS_U = PN_CHARS_BASE.concat('_')
 // [166s]
 const PN_CHARS = PN_CHARS_U.concat([
   '-',
-  /[0-9]/,
+  /\d/,
   /[\u00B7]/,
   /[\u0300-\u036F]/,
   /[\u203F-\u2040]/
@@ -51,7 +51,7 @@ const PN_CHARS = PN_CHARS_U.concat([
 
 // [171s]
 const HEX = [
-  /[0-9]/,
+  /\d/,
   /[A-F]/,
   /[a-f]/
 ]
@@ -80,7 +80,7 @@ const PN_LOCAL_ESC = [
   '%'
 ].map(char => '\\' + char)
 
-String.prototype.toCaseInsensitiv = function () {
+String.prototype.toCaseInsensitive = function() {
   return alias(
     token(new RegExp(
       this
@@ -104,16 +104,30 @@ module.exports = grammar({
 
   rules: {
 
-    // [1]
-    turtle_doc: $ => repeat($.statement),
+    // [1g] trigDoc ::= (directive | block)*
+    document: $ => repeat(choice($.directive, $.triple, $.graph)),
 
-    comment: $ => token(prec(-1, /#.*/)),
+    // wrappedGraph ::= '{' triplesBlock? '}'
+    // NOTE the last wrappedGraph triple does not have to terminate in a '.'
+    graph: $ => seq(
+      optional(field('label', $._label)),
+      '{',
+      seq(
+        repeat($.triple),
+        optional($._triples),
+      ),
+      '}',
+    ),
+
+    // [7g] labelOrSubject ::= iri | BlankNode
+    _label: $ => seq(optional('GRAPH'), choice($._iri, $._blank_node)),
+
+    comment: _ => token(prec(-1, /#.*/)),
 
     // [2]
-    statement: $ => choice(
-      $.directive,
-      seq($.triples, '.')
-    ),
+    // Triple Statement vs Graph Statement:
+    // https://www.w3.org/TR/trig/#sec-triple-statements
+    triple: $ => seq($._triples, '.'),
 
     // [3]
     directive: $ => choice(
@@ -140,19 +154,19 @@ module.exports = grammar({
 
     // [5s]
     sparql_base: $ => seq(
-      'BASE'.toCaseInsensitiv(),
+      'BASE'.toCaseInsensitive(),
       $.iri_reference,
     ),
 
     // [6s]
     sparql_prefix: $ => seq(
-      'PREFIX'.toCaseInsensitiv(),
+      'PREFIX'.toCaseInsensitive(),
       $.namespace,
       $.iri_reference,
     ),
 
     // [6]
-    triples: $ => choice(
+    _triples: $ => choice(
       seq(
         $.subject,
         $.property_list
@@ -252,30 +266,31 @@ module.exports = grammar({
     ),
 
     // [18]
-    iri_reference: $ => seq(
-      '<',
-      token.immediate(repeat(choice(
-        /([^<>"{}|^`\\\x00-\x20])/,
-        UCHAR
-      ))),
-      token.immediate(
-        '>'
-      )
-    ),
+    iri_reference: _ =>
+      seq(
+        '<',
+        // expose <#leading> anchor for syntax highlighting
+        optional(token(prec(1, '#'))),
+        token.immediate(
+          repeat(choice(/([^<>"{}|^`\\\x00-\x20])/, UCHAR)),
+        ),
+
+        token.immediate('>'),
+      ),
 
     // [19]
-    integer: $ => token(/[+-]?[0-9]+/),
+    integer: _ => token(/[+-]?\d+/),
 
     // [20]
-    decimal: $ => token(seq(/[+-]?/, /[0-9]*/, '.', /[0-9]+/)),
+    decimal: _ => token(seq(/[+-]?/, /\d*/, '.', /\d+/)),
 
     // [21]
-    double: $ => token(seq(
+    double: _ => token(seq(
       /[+-]?/,
       choice(
-        seq(/[0-9]+/, '.', /[0-9]*/, seq(...EXPONENT)),
-        seq('.', /[0-9]+/, seq(...EXPONENT)),
-        seq(/[0-9]+/, seq(...EXPONENT))
+        seq(/\d+/, '.', /\d*/, seq(...EXPONENT)),
+        seq('.', /\d+/, seq(...EXPONENT)),
+        seq(/\d+/, seq(...EXPONENT))
       ))
     ),
 
@@ -345,7 +360,7 @@ module.exports = grammar({
     ),
 
     // [133s]
-    boolean_literal: $ => choice(
+    boolean_literal: _ => choice(
       'true',
       'false'
     ),
@@ -375,12 +390,12 @@ module.exports = grammar({
     ),
 
     // [141s]
-    blank_node_label: $ => seq(
+    blank_node_label: _ => seq(
       '_:',
       token.immediate(seq(
         choice(
           ...PN_CHARS_U,
-          /[0-9]/
+          /\d/
         ),
         optional(seq(
           repeat(choice(
@@ -393,24 +408,24 @@ module.exports = grammar({
     ),
 
     // [144s]
-    lang_tag: $ => token(seq(
+    lang_tag: _ => token(seq(
       '@',
       /[a-zA-Z]+/,
       repeat(seq('-', /[a-zA-Z0-9]+/))
     )),
 
     // [159s]
-    echar: $ => /\\[tbnrf\\"']/,
+    echar: _ => /\\[tbnrf\\"']/,
 
     // [162s]
-    anon: $ => token(seq(
+    anon: _ => token(seq(
       '[',
       repeat(choice(...WS)),
       ']'
     )),
 
     // [167s]
-    pn_prefix: $ => token(seq(
+    pn_prefix: _ => token(seq(
       choice(...PN_CHARS_BASE),
       optional(seq(
         repeat(choice(
@@ -422,11 +437,11 @@ module.exports = grammar({
     )),
 
     // [168s]
-    pn_local: $ => token.immediate(seq(
+    pn_local: _ => token.immediate(seq(
       choice(
         ...PN_CHARS_U,
         ':',
-        /[0-9]/,
+        /\d/,
         seq('%', choice(...HEX), choice(...HEX)),
         ...PN_LOCAL_ESC
       ),

@@ -82,6 +82,83 @@
     }
   },
   {
+    "type": "document",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "directive",
+          "named": true
+        },
+        {
+          "type": "graph",
+          "named": true
+        },
+        {
+          "type": "triple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "graph",
+    "named": true,
+    "fields": {
+      "label": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "GRAPH",
+            "named": false
+          },
+          {
+            "type": "anon",
+            "named": true
+          },
+          {
+            "type": "blank_node_label",
+            "named": true
+          },
+          {
+            "type": "iri_reference",
+            "named": true
+          },
+          {
+            "type": "prefixed_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "blank_node_property_list",
+          "named": true
+        },
+        {
+          "type": "property_list",
+          "named": true
+        },
+        {
+          "type": "subject",
+          "named": true
+        },
+        {
+          "type": "triple",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "iri_reference",
     "named": true,
     "fields": {}
@@ -381,25 +458,6 @@
     }
   },
   {
-    "type": "statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "directive",
-          "named": true
-        },
-        {
-          "type": "triples",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "string",
     "named": true,
     "fields": {},
@@ -446,7 +504,7 @@
     }
   },
   {
-    "type": "triples",
+    "type": "triple",
     "named": true,
     "fields": {},
     "children": {
@@ -469,21 +527,6 @@
     }
   },
   {
-    "type": "turtle_doc",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "\"",
     "named": false
   },
@@ -493,6 +536,10 @@
   },
   {
     "type": "\"\"\"",
+    "named": false
+  },
+  {
+    "type": "#",
     "named": false
   },
   {
@@ -549,6 +596,10 @@
   },
   {
     "type": "BASE",
+    "named": false
+  },
+  {
+    "type": "GRAPH",
     "named": false
   },
   {
@@ -617,6 +668,14 @@
   },
   {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]
